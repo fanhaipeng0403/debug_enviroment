@@ -42,7 +42,7 @@
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="34" selection-start-column="34" selection-end-column="34" />
+              <caret column="35" selection-start-column="35" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -254,7 +254,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" weight="0.32880846" />
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.32880846" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32730016" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28279653" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.28279653" />
       <window_info anchor="bottom" id="Docker" order="13" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" sideWeight="0.478125" weight="0.3299293" />
       <window_info anchor="right" id="SciView" order="4" sideWeight="0.478125" weight="0.3299293" />
@@ -374,7 +374,7 @@
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="34" selection-start-column="34" selection-end-column="34" />
+          <caret column="35" selection-start-column="35" selection-end-column="35" />
         </state>
       </provider>
     </entry>
