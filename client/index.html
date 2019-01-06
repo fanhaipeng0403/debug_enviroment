@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.js"></script>
+</head>
+<body>
+<div id="output">
+
+</div>
+<div id="time" style="width: 300px;height: 50px;background-color: #0C0C0C;
+    color: white;text-align: center;line-height: 50px;margin-left: 40%;font-size: 20px"></div>
+
+<script src="https://cdn.rawgit.com/dcodeIO/protobuf.js/6.8.6/dist/protobuf.min.js"></script>
+<script>
+
+//    var wsUri = "ws://192.168.10.74:4000/echo";
+//    var ws = new WebSocket(wsUri) //
+//    ws.onmessage = function (event) {
+//        console.log(event)
+//        content = document.createTextNode(event.data);
+//        $("#time").html(content);
+//
+//    };
+
+    // .初始化protobuf，对相关数据进行序列化和反序列化
+
+    var WSMessage;
+    var wsmessage;
+    var buffer;
+    protobuf.load("./Message.proto", function (err, root) {
+        if (err) throw err;
+        WSMessage = root.lookup("wenlipackage.WSMessage");
+        wsmessage = WSMessage.create({id: "1", content: "hello", sender: "web", time: new Date().getTime()});
+        buffer = WSMessage.encode(wsmessage).finish();
+    });
+
+
+
+    var wsUri = "ws://192.168.10.74:4000/ohmypoker";
+    var output;
+
+    function init() {
+        output = document.getElementById("output");
+        testWebSocket();
+    }
+
+    function testWebSocket() {
+        websocket = new WebSocket(wsUri);
+        websocket.onopen = function (evt) {
+            onOpen(evt)
+        };
+        websocket.onclose = function (evt) {
+            onClose(evt)
+        };
+        websocket.onmessage = function (evt) {
+            onMessage(evt)
+        };
+        websocket.onerror = function (evt) {
+            onError(evt)
+        };
+    }
+
+    function onOpen(evt) {
+        writeToScreen("CONNECTED");
+        doSend(buffer);
+    }
+
+    function onClose(evt) {
+        writeToScreen("DISCONNECTED");
+    }
+
+    function onMessage(evt) {
+        console.log(evt)
+        var reader = new FileReader();
+        reader.readAsArrayBuffer(evt.data);
+        reader.onload = function (e) {
+            var buf = new Uint8Array(reader.result);
+            writeToScreen('<span style="color: blue;">RESPONSE: ' + WSMessage.decode(buf).content + '</span>');
+        }
+    }
+
+    function onError(evt) {
+        writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+    }
+
+    function doSend(message) {
+        writeToScreen("SENT: " + wsmessage.content);
+        websocket.send(buffer);
+    }
+
+    function writeToScreen(message) {
+        var pre = document.createElement("p");
+        pre.style.wordWrap = "break-word";
+        pre.innerHTML = message;
+        output.appendChild(pre);
+    }
+
+    window.addEventListener("load", init, false);
+</script>
+</body>
+</html>
